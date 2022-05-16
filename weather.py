@@ -7,14 +7,12 @@ DEGREE_SYBMOL = u"\N{DEGREE SIGN}C"
 def format_temperature(temp):
     """Takes a temperature and returns it in string format with the degrees
         and celcius symbols.
-
     Args:
         temp: A string representing a temperature.
     Returns:
         A string contain the temperature and "degrees celcius."
     """
     return f"{temp}{DEGREE_SYBMOL}"
-
 
 def convert_date(iso_string):
     """Converts and ISO formatted date into a human readable format.
@@ -24,10 +22,11 @@ def convert_date(iso_string):
     Returns:
         A date formatted like: Weekday Date Month Year e.g. Tuesday 06 July 2021
     """
+
+
     pass
 
-
-def convert_f_to_c(temp_in_farenheit):
+def convert_f_to_c(temp):
     """Converts an temperature from farenheit to celcius.
 
     Args:
@@ -35,9 +34,10 @@ def convert_f_to_c(temp_in_farenheit):
     Returns:
         A float representing a temperature in degrees celcius, rounded to 1dp.
     """
-    pass
-
-
+    
+    temp_in_C = round(((float(temp) - 32) * 5/9),1)
+    return temp_in_C
+    
 def calculate_mean(weather_data):
     """Calculates the mean value from a list of numbers.
 
@@ -46,8 +46,12 @@ def calculate_mean(weather_data):
     Returns:
         A float representing the mean value.
     """
-    pass
-
+    sum_wd=0
+    count_wd=0
+    for value in weather_data:
+        sum_wd += float(value)
+        count_wd += 1
+    return(sum_wd/count_wd)
 
 def load_data_from_csv(csv_file):
     """Reads a csv file and stores the data in a list.
@@ -59,17 +63,24 @@ def load_data_from_csv(csv_file):
     """
     pass
 
-
 def find_min(weather_data):
     """Calculates the minimum value in a list of numbers.
-
     Args:
         weather_data: A list of numbers.
     Returns:
         The minium value and it's position in the list.
-    """
-    pass
-
+    """ 
+    if weather_data:
+        min_value = weather_data[0]
+        min_location = 0
+        index = 0
+        for value in weather_data:
+            if value <= min_value:
+                min_value = value
+                min_location = index
+            index += 1
+        return(float(min_value), min_location)
+    else: return(())
 
 def find_max(weather_data):
     """Calculates the maximum value in a list of numbers.
@@ -79,8 +90,17 @@ def find_max(weather_data):
     Returns:
         The maximum value and it's position in the list.
     """
-    pass
-
+    if weather_data:
+        max_value = weather_data[0]
+        max_location = 0
+        index = 0
+        for value in weather_data:
+            if value >= max_value:
+                max_value = value
+                max_location = index
+            index += 1
+        return(float(max_value), max_location)
+    else: return(())
 
 def generate_summary(weather_data):
     """Outputs a summary for the given weather data.
@@ -91,7 +111,6 @@ def generate_summary(weather_data):
         A string containing the summary information.
     """
     pass
-
 
 def generate_daily_summary(weather_data):
     """Outputs a daily summary for the given weather data.
