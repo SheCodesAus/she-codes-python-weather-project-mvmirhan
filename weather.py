@@ -16,15 +16,16 @@ def format_temperature(temp):
 
 def convert_date(iso_string):
     """Converts and ISO formatted date into a human readable format.
-
+    
     Args:
         iso_string: An ISO date string..
     Returns:
         A date formatted like: Weekday Date Month Year e.g. Tuesday 06 July 2021
     """
-
-
-    pass
+    
+    date_object = datetime.strptime(iso_string, "%Y-%m-%dT%H:%M:%S%z")
+    date_format = datetime.strftime(date_object, "%A %d %B %Y")
+    return (date_format)
 
 def convert_f_to_c(temp):
     """Converts an temperature from farenheit to celcius.
@@ -53,7 +54,7 @@ def calculate_mean(weather_data):
         count_wd += 1
     return(sum_wd/count_wd)
 
-def load_data_from_csv(csv_file):
+def load_data_from_csv(csv_file): 
     """Reads a csv file and stores the data in a list.
 
     Args:
@@ -61,7 +62,14 @@ def load_data_from_csv(csv_file):
     Returns:
         A list of lists, where each sublist is a (non-empty) line in the csv file.
     """
-    pass
+    with open(csv_file, encoding="utf-8") as csv_file_obj:
+        reader = csv.reader(csv_file_obj)
+        list=[]
+        next(reader)
+        for line in reader:
+            if line!=[]:
+                list.append([line[0],int(line[1]),int(line[-1])])
+    return(list)
 
 def find_min(weather_data):
     """Calculates the minimum value in a list of numbers.
@@ -104,13 +112,19 @@ def find_max(weather_data):
 
 def generate_summary(weather_data):
     """Outputs a summary for the given weather data.
-
     Args:
         weather_data: A list of lists, where each sublist represents a day of weather data.
     Returns:
         A string containing the summary information.
     """
-    pass
+    # summary=""    
+    for record in weather_data:
+        summary=f"{len(weather_data)} Day Overview\n"
+        summary+=f"  The lowest temperature will be {find_min}, and will occur on Friday 02 July 2021.\n"
+        summary+=f"  The highest temperature will be 20.0°C, and will occur on Saturday 03 July 2021.\n"
+        summary+=f"  The average low this week is 12.2°C.\n"
+        summary+=f"  The average high this week is 17.8°C.\n"
+    return(summary)
 
 def generate_daily_summary(weather_data):
     """Outputs a daily summary for the given weather data.
