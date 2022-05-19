@@ -117,13 +117,29 @@ def generate_summary(weather_data):
     Returns:
         A string containing the summary information.
     """
-    # summary=""    
+    #The next two For Loop is to convert the input data to number list to enable the use of function configured earlier
+    
+    #For min list
+    weather_data_min=[]  
+    for min_list in weather_data:
+        weather_data_min.append(min_list[1])
+    lowest_temp=find_min(weather_data_min)
+    avg_min_temp=calculate_mean(weather_data_min)
+
+    #For max list
+    weather_data_max=[]
+    for max_list in weather_data:
+        weather_data_max.append(max_list[-1])
+    highest_temp=find_max(weather_data_max)
+    avg_max_temp=calculate_mean(weather_data_max)
+
+    #To generate the summary using for loop
     for record in weather_data:
         summary=f"{len(weather_data)} Day Overview\n"
-        summary+=f"  The lowest temperature will be {find_min}, and will occur on Friday 02 July 2021.\n"
-        summary+=f"  The highest temperature will be 20.0°C, and will occur on Saturday 03 July 2021.\n"
-        summary+=f"  The average low this week is 12.2°C.\n"
-        summary+=f"  The average high this week is 17.8°C.\n"
+        summary+=f"  The lowest temperature will be {convert_f_to_c(lowest_temp[0])}{DEGREE_SYBMOL}, and will occur on {convert_date(weather_data[(lowest_temp[-1])][0])}.\n"
+        summary+=f"  The highest temperature will be {(convert_f_to_c(highest_temp[0]))}{DEGREE_SYBMOL}, and will occur on {convert_date(weather_data[(highest_temp[-1])][0])}.\n"
+        summary+=f"  The average low this week is {convert_f_to_c(avg_min_temp)}{DEGREE_SYBMOL}.\n"
+        summary+=f"  The average high this week is {convert_f_to_c(avg_max_temp)}{DEGREE_SYBMOL}.\n"
     return(summary)
 
 def generate_daily_summary(weather_data):
@@ -134,4 +150,12 @@ def generate_daily_summary(weather_data):
     Returns:
         A string containing the summary information.
     """
-    pass
+    summary=""
+    list=[]
+    for record in weather_data:
+        summary+=f"---- {convert_date(record[0])} ----\n"
+        summary+=f"  Minimum Temperature: {convert_f_to_c(record[1])}{DEGREE_SYBMOL}\n"
+        summary+=f"  Maximum Temperature: {convert_f_to_c(record[2])}{DEGREE_SYBMOL}\n"
+        summary+=f"\n"
+        list.append(summary)
+    return(summary)
